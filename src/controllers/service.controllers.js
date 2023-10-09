@@ -5,7 +5,7 @@ export async function postService(req, res) {
     const { userId } = res.local
 
     try {
-        const service = await createServiceDB(userId, photo, description, price)
+        const service = await createServiceDB(photo, description, price, userId)
 
         res.status(201).send(service)
 
