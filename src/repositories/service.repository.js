@@ -4,10 +4,10 @@ export function getAllServices() {
     return db.query(`SELECT * FROM services;`)
 }
 
-export function createServiceDB(photo, description, price) {
+export function createServiceDB(userId, photo, description, price) {
     return db.query(
-        `INSERT INTO services (photo, description, price)
-            VALUES ($1, $2, $3);`, 
-        [photo,  description, price]
+        `INSERT INTO services ("userId", photo, description, price)
+            VALUES ($1, $2, $3, $4);`, 
+        [userId, photo,  description, price]
     )
 }

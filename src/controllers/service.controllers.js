@@ -1,16 +1,13 @@
 import { createServiceDB, getAllServices } from "../repositories/service.repository.js"
 
 export async function postService(req, res) {
-    const { authorization } = req.headers
     const { photo, description, price } = req.body
+    const { userId } = res.local
 
     try {
-        // isso não deve dar certo, implementar algo para validar o token
-        if (!isValidToken(authorization)) return res.status(401).send({ message: "Token de autorização inválido." })
-        
-        await createServiceDB(photo, description, price)
+        const service = await createServiceDB(userId, photo, description, price)
 
-        res.sendStatus(201)
+        res.status(201).send(service)
 
     } catch (err) {
         res.status(500).send(err.message)

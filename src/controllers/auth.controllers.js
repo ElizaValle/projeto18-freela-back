@@ -8,7 +8,7 @@ export async function signUp(req, res) {
 
     try {
         const user = await getUserByEmailDB(email)
-        if (user.rowCount > 0) return res.status(409).send({ message: "Email já cadastrado!" })
+        if (user.rowCount !== 0) return res.status(409).send({ message: "Email já cadastrado!" })
 
         const passwordHash = bcrypt.hashSync(password, 10)
 
@@ -26,7 +26,7 @@ export async function signIn(req, res) {
 
     try {
         const user = await getUserByEmailDB(email)
-        if (user.rowCount === 0) return res.status(401).send({ message: "Email já cadastrado!" })
+        if (user.rowCount === 0) return res.status(401).send({ message: "Email não cadastrado!" })
 
         const isPasswordCorrect = bcrypt.compare(password, user.rows[0].password)
         if (!isPasswordCorrect) return res.status(401).send({ message: "Senha incorreta!" })
